@@ -1,0 +1,84 @@
+---
+title       : Courser Project presentation
+subtitle    : Machine learning
+author      : aitaoke
+job         : Student
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+
+
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+
+
+--- .class #id
+
+
+## Pre-processing work
+
+- Remove the columns that contain too many NA's, and the columns of user_name, raw_timestamp,new_window matually. Finally got 55 predictors
+- Random sample 5000 rows from the training set since accuracy is big than 99% 
+- Read the csv files
+
+
+
+## Two methods to predict
+
+- Predicting with trees
+
+        Accuaracy:0.539; 
+        time< 1 min
+- Random Forests
+
+        Accuaracy:0.989; 
+        time: about 30mins  
+
+---
+
+## Prediction code
+
+- Pre-processing
+
+    train01<-read.csv("pml-training0.csv")
+    test0<-read.csv("pml-testing0.csv")
+    train5000<-sample(nrow(train01),5000)
+    train302<-train01[train5000,]
+
+- rpart
+    
+    set.seed(1235)
+    modFit5<-train(train302$classe~.,method="rpart",
+                    data=train302)
+    predict(modFit5,newdata=test0)
+    
+- rf  
+    set.seed(1233)
+    modFit3<-train(train302$classe~.,method="rf",
+                    data=train302)
+    predict(modFit3,newdata=test0)
+
+---
+
+## The results
+
+- rpart
+
+    Only 7 correct answers
+
+- rf
+
+   19 correct answers
+
+
+---
+
+
+
+
+
+
+
+
+
